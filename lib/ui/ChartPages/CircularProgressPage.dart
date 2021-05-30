@@ -38,7 +38,7 @@ class _CircularProgressPageState extends State<CircularProgressPage> {
                 percent: (widget.actualCost / widget.expectCost),
                 circularStrokeCap: CircularStrokeCap.round,
                 center: new Text("${((widget.actualCost / widget.expectCost) * 100).toStringAsFixed(2)}%"),
-                progressColor: const Color(0xffff5182),
+                progressColor: const Color(0xff2491ea),
               )
             ],
           ),

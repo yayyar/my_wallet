@@ -208,7 +208,7 @@ class _NavDashboardState extends State<NavDashboard> {
                   decoration: BoxDecoration(
                     color: title == 'Estimate'
                         ? Colors.orange
-                        : const Color(0xffff5182),
+                        : const Color(0xff2491ea),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
