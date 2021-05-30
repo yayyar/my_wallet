@@ -1,6 +1,6 @@
-import 'dart:io';
+//import 'dart:io';
 
-import 'package:csv/csv.dart';
+//import 'package:csv/csv.dart';
 import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:my_wallet/model/ExpenseItem.dart';
@@ -10,9 +10,9 @@ import 'package:my_wallet/util/ActiveBudgetService.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/Database/DatabaseHelper.dart';
 import 'package:my_wallet/util/DateTools.dart';
-import 'package:my_wallet/util/FileUtil.dart';
+//import 'package:my_wallet/util/FileUtil.dart';
 //import 'package:open_file/open_file.dart';
-import 'package:permission_handler/permission_handler.dart';
+//import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class NavHome extends StatefulWidget {
@@ -35,8 +35,8 @@ class _NavHomeState extends State<NavHome> {
   int startPickedDate, endPickedDate;
   var activeBudgetService = new ActiveBudgetService();
   bool _isActiveBudget = false;
-  bool _isFlClick = false;
-  PermissionStatus _permissionStatus = PermissionStatus.undetermined;
+  //bool _isFlClick = false;
+  //PermissionStatus _permissionStatus = PermissionStatus.undetermined;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   _getActiveBudgetCategoryList() async {
@@ -226,87 +226,87 @@ class _NavHomeState extends State<NavHome> {
           ],
         );
       }),
-//      floatingActionButton: Visibility(
-//        visible: _isActiveBudget,
-//        child: FloatingActionButton(
-//          tooltip: "Add new expense",
-//          onPressed: () {
-//            _addNewItemDialog();
-//          },
-//          child: Icon(
-//            Icons.add,
-//          ),
-//        ),
-//      ),
-      floatingActionButton: Visibility(
-        visible: _isActiveBudget,
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              bottom: 150.0,
-              right: 10.0,
-              child: Visibility(
-                visible: _isFlClick,
-                child: Row(
-                  children: [
-                    Card(
-                      child: Container(
-                        height: 22,
-                        width: 70,
-                        child: Center(child: Text('Download')),
-                      ),
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {
-                        requestPermission(Permission.storage);
-                      },
-                      mini: true,
-                      child: Icon(Icons.file_download),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 80.0,
-              right: 10.0,
-              child: Visibility(
-                visible: _isFlClick,
-                child: Row(
-                  children: [
-                    Card(
-                      child: Container(
-                        height: 22,
-                        width: 120,
-                        child: Center(child: Text('Add new expense')),
-                      ),
-                    ),
-                    FloatingActionButton(
-                      onPressed: () {
-                        _addNewItemDialog();
-                      },
-                      mini: true,
-                      child: Icon(Icons.edit),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 10.0,
-              right: 10.0,
-              child: FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    _isFlClick = !_isFlClick;
-                  });
-                },
-                child: Icon(_isFlClick ? Icons.close : Icons.add),
-              ),
-            ),
-          ],
-        ),
-      ),
+     floatingActionButton: Visibility(
+       visible: _isActiveBudget,
+       child: FloatingActionButton(
+         tooltip: "Add new expense",
+         onPressed: () {
+           _addNewItemDialog();
+         },
+         child: Icon(
+           Icons.edit,
+         ),
+       ),
+     ),
+//       floatingActionButton: Visibility(
+//         visible: _isActiveBudget,
+//         child: Stack(
+//           children: <Widget>[
+//             Positioned(
+//               bottom: 150.0,
+//               right: 10.0,
+//               child: Visibility(
+//                 visible: _isFlClick,
+//                 child: Row(
+//                   children: [
+//                     Card(
+//                       child: Container(
+//                         height: 22,
+//                         width: 70,
+//                         child: Center(child: Text('Download')),
+//                       ),
+//                     ),
+//                     FloatingActionButton(
+//                       onPressed: () {
+//                         requestPermission(Permission.storage);
+//                       },
+//                       mini: true,
+//                       child: Icon(Icons.file_download),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             Positioned(
+//               bottom: 80.0,
+//               right: 10.0,
+//               child: Visibility(
+//                 visible: _isFlClick,
+//                 child: Row(
+//                   children: [
+//                     Card(
+//                       child: Container(
+//                         height: 22,
+//                         width: 120,
+//                         child: Center(child: Text('Add new expense')),
+//                       ),
+//                     ),
+//                     FloatingActionButton(
+//                       onPressed: () {
+//                         _addNewItemDialog();
+//                       },
+//                       mini: true,
+//                       child: Icon(Icons.edit),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//             Positioned(
+//               bottom: 10.0,
+//               right: 10.0,
+//               child: FloatingActionButton(
+//                 onPressed: () {
+//                   setState(() {
+//                     _isFlClick = !_isFlClick;
+//                   });
+//                 },
+//                 child: Icon(_isFlClick ? Icons.close : Icons.add),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
     );
   }
 
@@ -538,86 +538,86 @@ class _NavHomeState extends State<NavHome> {
     _categoryId = 0;
     _itemNameController.clear();
     _itemExpenseController.clear();
-    setState(() {
-      _isFlClick = false;
-    });
+    // setState(() {
+    //   _isFlClick = false;
+    // });
   }
-  Future<void> requestPermission(Permission permission) async {
-    final status = await permission.request();
-    _permissionStatus = status;
-    _downloadCSV();
-  }
-  _downloadCSV() async {
-
-    if (_permissionStatus.isGranted) {
-
-      List allExpenseList = await _db.getAllExpenseToDownload(startDate: startPickedDate,endDate: endPickedDate);
-      if(allExpenseList.length <= 0){
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text('No data to download'),
-          ),
-        );
-        setState(() {
-          _isFlClick = false;
-        });
-      } else if( allExpenseList.length > 0){
-        //print('AllExp => $allExpenseList');
-        List associateList = [
-          {
-            'itemNameDescription': 'Item name',
-            'categoryName': 'Category name',
-            'itemDate': 'Date',
-            'actualCost': 'Cost'
-          }
-        ];
-        associateList.addAll(allExpenseList);
-
-        List<List<dynamic>> rows = List<List<dynamic>>();
-        for (int i = 0; i < associateList.length; i++) {
-          List<dynamic> row = List();
-          row.add(associateList[i]['itemNameDescription']);
-          row.add(associateList[i]['categoryName']);
-          row.add(i !=0 ? fullDateFormatted(date: DateTime.fromMillisecondsSinceEpoch(associateList[i]['itemDate'])) : 'Date');
-          row.add(associateList[i]['actualCost']);
-          rows.add(row);
-        }
-        //debugPrint('Rows => $rows');
-        String folderName = 'Download';
-        String folderPath = await FileUtil.createFolderInDesireDir(folderName);
-        //debugPrint('FolderPath => $folderPath');
-
-        File f = new File(folderPath + "${fullDateAndTime(date: DateTime.now())}_budget.csv");
-        //debugPrint('File => $f');
-
-        String csv = const ListToCsvConverter().convert(rows);
-        //debugPrint('CSV => $csv');
-
-        f.writeAsString(csv);
-        _scaffoldKey.currentState.showSnackBar(
-          SnackBar(
-            content: Text('Download success'),
-//          action: SnackBarAction(
-//            label: 'Open',
-//            onPressed: () async{
-//              String path = f.path;
-//              debugPrint('Path => $path');
-//              await OpenFile.open(path);
-//            },
-//          ),
-          ),
-        );
-      }
-    } else if (_permissionStatus.isDenied) {
-      _scaffoldKey.currentState.showSnackBar(
-        SnackBar(
-          content: Text('Storage is not accessed to download'),
-        ),
-      );
-    }
-    setState(() {
-      _isFlClick = false;
-    });
-  }
+//   Future<void> requestPermission(Permission permission) async {
+//     final status = await permission.request();
+//     _permissionStatus = status;
+//     _downloadCSV();
+//   }
+//   _downloadCSV() async {
+//
+//     if (_permissionStatus.isGranted) {
+//
+//       List allExpenseList = await _db.getAllExpenseToDownload(startDate: startPickedDate,endDate: endPickedDate);
+//       if(allExpenseList.length <= 0){
+//         _scaffoldKey.currentState.showSnackBar(
+//           SnackBar(
+//             content: Text('No data to download'),
+//           ),
+//         );
+//         setState(() {
+//           _isFlClick = false;
+//         });
+//       } else if( allExpenseList.length > 0){
+//         //print('AllExp => $allExpenseList');
+//         List associateList = [
+//           {
+//             'itemNameDescription': 'Item name',
+//             'categoryName': 'Category name',
+//             'itemDate': 'Date',
+//             'actualCost': 'Cost'
+//           }
+//         ];
+//         associateList.addAll(allExpenseList);
+//
+//         List<List<dynamic>> rows = List<List<dynamic>>();
+//         for (int i = 0; i < associateList.length; i++) {
+//           List<dynamic> row = List();
+//           row.add(associateList[i]['itemNameDescription']);
+//           row.add(associateList[i]['categoryName']);
+//           row.add(i !=0 ? fullDateFormatted(date: DateTime.fromMillisecondsSinceEpoch(associateList[i]['itemDate'])) : 'Date');
+//           row.add(associateList[i]['actualCost']);
+//           rows.add(row);
+//         }
+//         //debugPrint('Rows => $rows');
+//         String folderName = 'Download';
+//         String folderPath = await FileUtil.createFolderInDesireDir(folderName);
+//         //debugPrint('FolderPath => $folderPath');
+//
+//         File f = new File(folderPath + "${fullDateAndTime(date: DateTime.now())}_budget.csv");
+//         //debugPrint('File => $f');
+//
+//         String csv = const ListToCsvConverter().convert(rows);
+//         //debugPrint('CSV => $csv');
+//
+//         f.writeAsString(csv);
+//         _scaffoldKey.currentState.showSnackBar(
+//           SnackBar(
+//             content: Text('Download success'),
+// //          action: SnackBarAction(
+// //            label: 'Open',
+// //            onPressed: () async{
+// //              String path = f.path;
+// //              debugPrint('Path => $path');
+// //              await OpenFile.open(path);
+// //            },
+// //          ),
+//           ),
+//         );
+//       }
+//     } else if (_permissionStatus.isDenied) {
+//       _scaffoldKey.currentState.showSnackBar(
+//         SnackBar(
+//           content: Text('Storage is not accessed to download'),
+//         ),
+//       );
+//     }
+//     setState(() {
+//       _isFlClick = false;
+//     });
+//   }
 
 }
