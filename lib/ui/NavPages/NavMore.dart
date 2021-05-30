@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_wallet/ui/ReportPages/BudgetPage.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
+import 'package:my_wallet/util/Currency.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,6 +14,7 @@ class NavMore extends StatefulWidget {
 class _NavMoreState extends State<NavMore> {
   //String toLaunch = 'fb://page/103594718332924';
   String toLaunch = 'https://www.facebook.com/103594718332924/posts/104530501572679/';
+  String _selectedCurrencyCode = 'MMK',_selectedCurrencySymbol = 'K';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,14 +37,20 @@ class _NavMoreState extends State<NavMore> {
                       Provider.of<AppStateNotifier>(context,listen: false).updateTheme(value);
                   },
                 ),
-//                SettingsTile(
-//                  title: 'Language',
-//                  subtitle: 'English',
-//                  leading: Icon(Icons.language),
-//                  onTap: () {
-//                    _changeLanguage();
-//                  },
-//                ),
+               SettingsTile(
+                 title: 'Currency',
+                 subtitle: _selectedCurrencyCode,
+                 subtitleTextStyle: TextStyle(
+                   color: const Color(0xff2491ea),
+                 ),
+                 leading: Text(_selectedCurrencySymbol,style: TextStyle(
+                   fontSize: 20,
+                   color: const Color(0xff2491ea),
+                 ),),
+                 onTap: () {
+                   _changeCurrencySymbol(context);
+                 },
+               ),
               ],
             ),
             SettingsSection(
@@ -105,45 +113,78 @@ class _NavMoreState extends State<NavMore> {
     await launch(_emailLaunchUri.toString());
   }
 
-//  void _changeLanguage() {
-//    var _dialog = new Dialog(
-//      child: Container(
-//        height: 101,
-//        child: SingleChildScrollView(
-//          scrollDirection: Axis.vertical,
-//          child: Column(
-//            children: [
-//              InkWell(
-//                child: Container(
-//                  height: 50,
-//                  child: Center(child: Text('မြန်မာ')),
-//                ),
-//                onTap: (){
-//                  Navigator.pop(context);
-//                },
-//              ),
-//              Container(
-//                color: Colors.blueGrey,
-//                height: 1,
-//              ),
-//              InkWell(
-//                child: Container(
-//                  height: 50,
-//                  child: Center(child: Text('English')),
-//                ),
-//                onTap: (){
-//                  Navigator.pop(context);
-//                },
-//              )
-//            ],
-//          ),
-//        ),
-//      ),
-//    );
-//    showDialog(
-//        context: context,
-//        builder: (_) {
-//          return _dialog;
-//        });
-//  }
+  void _changeCurrencySymbol(BuildContext context) {
+    // Locale locale = Localizations.localeOf(context);
+    // var format = NumberFormat.simpleCurrency(locale: locale.toString());
+    // print("CURRENCY SYMBOL ${format.currencySymbol}");
+    // print("CURRENCY NAME ${format.currencyName}");
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              for( var data in currency)
+              ListTile(
+                leading: CircleAvatar(child:Text(data.symbol)),
+                title: Text(data.code,
+                style: TextStyle(
+                  color: data.code == _selectedCurrencyCode ? Colors.white : null
+                ),),
+                onTap: () {
+                  setState(() {
+                    _selectedCurrencyCode = data.code;
+                    _selectedCurrencySymbol = data.symbol;
+                  });
+                  Navigator.pop(context);
+                },
+                selected: data.code == _selectedCurrencyCode,
+                selectedTileColor: Colors.blue
+              ),
+            ],
+          );
+        });
+  }
+
+ // void _changeLanguage() {
+ //   var _dialog = new Dialog(
+ //     child: Container(
+ //       height: 101,
+ //       child: SingleChildScrollView(
+ //         scrollDirection: Axis.vertical,
+ //         child: Column(
+ //           children: [
+ //             InkWell(
+ //               child: Container(
+ //                 height: 50,
+ //                 child: Center(child: Text('မြန်မာ')),
+ //               ),
+ //               onTap: (){
+ //                 Navigator.pop(context);
+ //               },
+ //             ),
+ //             Container(
+ //               color: Colors.blueGrey,
+ //               height: 1,
+ //             ),
+ //             InkWell(
+ //               child: Container(
+ //                 height: 50,
+ //                 child: Center(child: Text('English')),
+ //               ),
+ //               onTap: (){
+ //                 Navigator.pop(context);
+ //               },
+ //             )
+ //           ],
+ //         ),
+ //       ),
+ //     ),
+ //   );
+ //   showDialog(
+ //       context: context,
+ //       builder: (_) {
+ //         return _dialog;
+ //       });
+ // }
 }
