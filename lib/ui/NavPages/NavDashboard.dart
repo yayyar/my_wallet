@@ -178,7 +178,7 @@ class _NavDashboardState extends State<NavDashboard> {
                               ? Center(
                                 child: Container(
                                     child: Text(
-                                        'Overload cost ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
+                                        'Overload cost $currencySymbol ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
                                     style: FlResponsiveUI().getTextStyleRegular(
                                       color: Colors.red,
                                       fontSize: 18
