@@ -22,12 +22,14 @@ class _MyHomePageState extends State<MyHomePage> {
   bool _doNavHome = true, _isNavHome = true, _isNavDashboard = true;
 
   List<Widget> _widgetNavPages = <Widget>[NavHome(), NavDashboard(), NavMore()];
-  int itemDate = DateTime.parse(fullDateFormatted(date: DateTime.now())).millisecondsSinceEpoch;
+  int itemDate = DateTime.parse(fullDateFormatted(date: DateTime.now()))
+      .millisecondsSinceEpoch;
 
   @override
   Widget build(BuildContext context) {
-    final _appStateNotifier = Provider.of<AppStateNotifier>(context, listen: false);
-    if(_doNavHome){
+    final _appStateNotifier =
+        Provider.of<AppStateNotifier>(context, listen: false);
+    if (_doNavHome) {
       _appStateNotifier.getAllExpenseItems();
       _appStateNotifier.getEstimateCost();
       _appStateNotifier.getActualCost();
@@ -42,35 +44,35 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            title: Text('Dashboard'),
+            label: 'Dashboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.more_horiz),
-            title: Text('More'),
+            label: 'More',
           ),
         ],
         currentIndex: _selectedIndex,
         onTap: (index) {
-          if(_isNavHome && index == 0){
+          if (_isNavHome && index == 0) {
             _appStateNotifier.getAllExpenseItems();
             _appStateNotifier.getEstimateCost();
             _appStateNotifier.getActualCost();
             _isNavHome = false;
           }
-          if(index != 0){
+          if (index != 0) {
             _isNavHome = true;
           }
-          if(_isNavDashboard && index == 1){
+          if (_isNavDashboard && index == 1) {
             _appStateNotifier.getAllExpenseItems();
             _appStateNotifier.getEstimateCost();
             _appStateNotifier.getActualCost();
             _isNavDashboard = false;
           }
-          if(index != 1){
+          if (index != 1) {
             _isNavDashboard = true;
           }
           setState(() {

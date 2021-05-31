@@ -42,7 +42,6 @@ class _CategoryListPageState extends State<CategoryListPage> {
     _isLoadNewCategory = true;
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -51,8 +50,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _appStateNotifier = Provider.of<AppStateNotifier>(context, listen: false);
-    if(_isLoadNewCategory) {
+    final _appStateNotifier =
+        Provider.of<AppStateNotifier>(context, listen: false);
+    if (_isLoadNewCategory) {
       _appStateNotifier.getBudgetCategoryCount();
       _isLoadNewCategory = false;
     }
@@ -68,13 +68,15 @@ class _CategoryListPageState extends State<CategoryListPage> {
           itemBuilder: (context, index) {
             return Card(
               child: ListTile(
-                title: Text('${_budgetCategoryItemsList[index]['categoryName']}'),
+                title:
+                    Text('${_budgetCategoryItemsList[index]['categoryName']}'),
                 subtitle: Text(
                   'Estimate ${_budgetCategoryItemsList[index]['estimateCost']} Ks',
                 ),
                 trailing: Listener(
                   onPointerDown: (pointerEvent) {
-                    _deleteCategoryItem(_budgetCategoryItemsList[index]['categoryId'],index);
+                    _deleteCategoryItem(
+                        _budgetCategoryItemsList[index]['categoryId'], index);
                   },
                   child: Icon(
                     Icons.remove_circle,
@@ -238,21 +240,24 @@ class _CategoryListPageState extends State<CategoryListPage> {
             fullDateFormatted(date: DateTime.now()),
             estimateCost);
         debugPrint('BudgetCategoryItems => ${_budgetCategoryItem.toMap()}');
-        int _budgetCategoryId = await _db.saveBudgetCategoryItem(_budgetCategoryItem);
+        int _budgetCategoryId =
+            await _db.saveBudgetCategoryItem(_budgetCategoryItem);
         debugPrint('Insert BudgetCategory Id => $_budgetCategoryId');
       }
-    }else{
-      int count = await _db.findBudgetCategoryName(_categoryName[0]['categoryId'],budgetItemId);
-      if(count == 0){
+    } else {
+      int count = await _db.findBudgetCategoryName(
+          _categoryName[0]['categoryId'], budgetItemId);
+      if (count == 0) {
         BudgetCategoryItem _budgetCategoryItem = new BudgetCategoryItem(
             budgetItemId,
             _categoryName[0]['categoryId'],
             fullDateFormatted(date: DateTime.now()),
             estimateCost);
         debugPrint('BudgetCategoryItems => ${_budgetCategoryItem.toMap()}');
-        int _budgetCategoryId = await _db.saveBudgetCategoryItem(_budgetCategoryItem);
+        int _budgetCategoryId =
+            await _db.saveBudgetCategoryItem(_budgetCategoryItem);
         debugPrint('Insert BudgetCategory Id => $_budgetCategoryId');
-      }else{
+      } else {
         debugPrint('Already have this name in this budget');
       }
     }
@@ -263,21 +268,22 @@ class _CategoryListPageState extends State<CategoryListPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          final _appStateNotifier = Provider.of<AppStateNotifier>(context, listen: false);
+          final _appStateNotifier =
+              Provider.of<AppStateNotifier>(context, listen: false);
           return AlertDialog(
             title: Text("Delete category"),
             content: Text("Are you sure to delete?"),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: () => Navigator.pop(context),
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Ok'),
                 onPressed: () async {
                   int count = await _db.findActiveCategory(id);
                   debugPrint('Count => $count');
-                  if(count == 0){
+                  if (count == 0) {
                     // delete category item
                     await _db.deleteCategoryItem(id);
                     setState(() {
@@ -285,9 +291,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
                     });
                     _appStateNotifier.getBudgetCategoryCount();
                     Navigator.pop(context);
-                  }else{
+                  } else {
                     Navigator.pop(context);
-                    _scaffoldKey.currentState.showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('This category is already used!'),
                       ),

@@ -10,9 +10,10 @@ class ItemDetailPage extends StatefulWidget {
   final int categoryId;
   final int startDate;
   final int endDate;
-  ItemDetailPage({this.title, this.categoryId,this.startDate,this.endDate});
+  ItemDetailPage({this.title, this.categoryId, this.startDate, this.endDate});
   @override
-  _ItemDetailPageState createState() => _ItemDetailPageState(categoryId,startDate,endDate);
+  _ItemDetailPageState createState() =>
+      _ItemDetailPageState(categoryId, startDate, endDate);
 }
 
 class _ItemDetailPageState extends State<ItemDetailPage> {
@@ -23,14 +24,14 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
   final int endDate;
   double _estimateCost = 0.0, _actualCost = 0.0;
 
-  _ItemDetailPageState(this.categoryId,this.startDate,this.endDate);
+  _ItemDetailPageState(this.categoryId, this.startDate, this.endDate);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-          '${widget.title!= null ? widget.title : 'CC'}',
+          '${widget.title != null ? widget.title : 'CC'}',
         )),
         body: Container(
           child: Column(
@@ -45,8 +46,9 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                   padding: EdgeInsets.only(left: 8.0, right: 8.0),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onLongPress: (){
-                        _deleteItemDialog(_expenseItemsList[index]['itemId'],index);
+                      onLongPress: () {
+                        _deleteItemDialog(
+                            _expenseItemsList[index]['itemId'], index);
                       },
                       child: Container(
                         height: 55,
@@ -57,7 +59,8 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                                 child: Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -132,22 +135,25 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     _actualCost = 0.0;
     _estimateCost = 0.0;
     //debugPrint('categoryId=> $categoryId, date=> $startDate, $endDate');
-    List items = await _db.getExpenseItems(categoryId: categoryId,startDate: startDate,endDate: endDate);
+    List items = await _db.getExpenseItems(
+        categoryId: categoryId, startDate: startDate, endDate: endDate);
     setState(() {
       _expenseItemsList = items;
-      _estimateCost = _expenseItemsList.isNotEmpty ? _expenseItemsList[0]['estimateCost'] : 0.0;
-      if(_expenseItemsList.isNotEmpty){
+      _estimateCost = _expenseItemsList.isNotEmpty
+          ? _expenseItemsList[0]['estimateCost']
+          : 0.0;
+      if (_expenseItemsList.isNotEmpty) {
         _expenseItemsList.forEach((value) {
           _actualCost += value['actualCost'];
         });
-      }else{
+      } else {
         _actualCost = 0.0;
       }
     });
 //    debugPrint('D All expense items list => $_expenseItemsList');
 //    debugPrint('D Estimate cost => $_estimateCost');
 //    debugPrint('D Actual cost => $_actualCost');
-    if(_expenseItemsList.isEmpty){
+    if (_expenseItemsList.isEmpty) {
       Navigator.pop(context);
     }
   }
@@ -162,24 +168,27 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
-          final _appStateNotifier = Provider.of<AppStateNotifier>(context, listen: false);
+          final _appStateNotifier =
+              Provider.of<AppStateNotifier>(context, listen: false);
           return AlertDialog(
             title: Text("Delete"),
             content: Text("Are you sure to delete?"),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: () => Navigator.pop(context),
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Ok'),
                 onPressed: () async {
                   //_submitDelete(id, index);
                   await _db.deleteExpenseItem(id);
                   await _getExpenseItems();
-                  _appStateNotifier.getAllExpenseItems(startDate: startDate,endDate: endDate);
+                  _appStateNotifier.getAllExpenseItems(
+                      startDate: startDate, endDate: endDate);
                   //_appStateNotifier.getEstimateCost();
-                  _appStateNotifier.getActualCost(startDate: startDate,endDate: endDate);
+                  _appStateNotifier.getActualCost(
+                      startDate: startDate, endDate: endDate);
                   Navigator.pop(context);
                 },
               )

@@ -33,11 +33,11 @@ class _BudgetPageState extends State<BudgetPage> {
     _isDataLoad = true;
     String monthYear = monthYearFormatted(date: DateTime.now());
     int count = await _db.findCurrentBudget(monthYear);
-    if(count == 1){
+    if (count == 1) {
       setState(() {
         _currentBudget = false;
       });
-    }else{
+    } else {
       setState(() {
         _currentBudget = true;
       });
@@ -52,8 +52,9 @@ class _BudgetPageState extends State<BudgetPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _appStateNotifier = Provider.of<AppStateNotifier>(context, listen: false);
-    if(_isDataLoad){
+    final _appStateNotifier =
+        Provider.of<AppStateNotifier>(context, listen: false);
+    if (_isDataLoad) {
       _appStateNotifier.getBudgetCategoryCount();
       _isDataLoad = false;
     }
@@ -163,23 +164,23 @@ class _BudgetPageState extends State<BudgetPage> {
                                         content:
                                             Text("Are you sure to deactivate?"),
                                         actions: [
-                                          FlatButton(
+                                          TextButton(
                                             child: Text('Cancel'),
                                             onPressed: () =>
                                                 Navigator.pop(context),
                                           ),
-                                          FlatButton(
+                                          TextButton(
                                             child: Text('Ok'),
                                             onPressed: () {
                                               _db.updateBudgetStatus();
                                               _updateBudgetItem(
-                                                  itemName: _budgetItemsList[
-                                                          index]
-                                                      .toMap()["budgetName"],
-                                                  id: _budgetItemsList[index]
-                                                      .toMap()["budgetId"],
-                                                  budgetStatus: 0,
-                                                  alert: true,
+                                                itemName:
+                                                    _budgetItemsList[index]
+                                                        .toMap()["budgetName"],
+                                                id: _budgetItemsList[index]
+                                                    .toMap()["budgetId"],
+                                                budgetStatus: 0,
+                                                alert: true,
                                               );
                                             },
                                           )
@@ -194,8 +195,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                     id: _budgetItemsList[index]
                                         .toMap()["budgetId"],
                                     budgetStatus: 1,
-                                    alert: false
-                                );
+                                    alert: false);
                               }
                             },
                           ),
@@ -282,8 +282,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                                 _budgetNameController.text,
                                             id: budgetItemId,
                                             budgetStatus: status,
-                                            alert: true
-                                    );
+                                            alert: true);
                                   }
                                 },
                                 child: Icon(
@@ -331,7 +330,8 @@ class _BudgetPageState extends State<BudgetPage> {
   void _setBudgetItem({String budgetName}) async {
     String budgetDate = fullDateFormatted(date: DateTime.now());
     String monthYear = monthYearFormatted(date: DateTime.now());
-    BudgetItem _budgetItem = new BudgetItem(budgetName, budgetDate, 0,monthYear, budgetDate);
+    BudgetItem _budgetItem =
+        new BudgetItem(budgetName, budgetDate, 0, monthYear, budgetDate);
     await _db.saveBudgetItem(_budgetItem);
     _loadBudgetList(); // after insert new budgetItem, reload all budget items
     Navigator.pop(context);
@@ -377,11 +377,11 @@ class _BudgetPageState extends State<BudgetPage> {
             title: Text("Delete budget"),
             content: Text("Are you sure to delete?"),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text('Cancel'),
                 onPressed: () => Navigator.pop(context),
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Ok'),
                 onPressed: () {
                   _submitDeleteBudget(id, index);
@@ -403,11 +403,11 @@ class _BudgetPageState extends State<BudgetPage> {
       @required int id,
       @required int budgetStatus,
       @required bool alert}) async {
-      await _db.updateBudgetItem(itemName,id,budgetStatus);
+    await _db.updateBudgetItem(itemName, id, budgetStatus);
     setState(() {
       _loadBudgetList();
     });
-    if(alert){
+    if (alert) {
       Navigator.pop(context);
     }
   }

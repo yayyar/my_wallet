@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_wallet/ui/ChartPages/ExpenseSeries.dart';
-import 'package:my_wallet/util/DateTools.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'ActiveBudgetService.dart';
@@ -57,7 +56,8 @@ class AppStateNotifier extends ChangeNotifier {
     estimateCost = 0;
     List estimateItems = await _db.getEstimateCost();
     estimateItems.forEach((element) {
-        estimateCost = element['estimateCost'] != null ? element['estimateCost'] : 0.0;
+      estimateCost =
+          element['estimateCost'] != null ? element['estimateCost'] : 0.0;
     });
     //debugPrint('App Estimate => $estimateCost');
     notifyListeners();
@@ -67,14 +67,17 @@ class AppStateNotifier extends ChangeNotifier {
     actualCost = 0;
     await activeBudgetService.getCurrentBudgetDate();
     DateTime curBudgetDate = DateTime.parse(activeBudgetService.curDateStr);
-    DateTime lastUpdatedDate = DateTime.parse(activeBudgetService.lastUpdatedDateStr);
+    DateTime lastUpdatedDate =
+        DateTime.parse(activeBudgetService.lastUpdatedDateStr);
     int itemDate = curBudgetDate.millisecondsSinceEpoch;
     int itemUpdatedDate = lastUpdatedDate.millisecondsSinceEpoch;
     List actualItems = [];
-    if(startDate == null || endDate == null){
-      actualItems = await _db.getActualCost(startDate: itemDate,endDate: itemUpdatedDate);
-    }else {
-      actualItems = await _db.getActualCost(startDate: startDate,endDate: endDate);
+    if (startDate == null || endDate == null) {
+      actualItems = await _db.getActualCost(
+          startDate: itemDate, endDate: itemUpdatedDate);
+    } else {
+      actualItems =
+          await _db.getActualCost(startDate: startDate, endDate: endDate);
     }
     actualItems.forEach((element) {
       actualCost = element['actualCost'] != null ? element['actualCost'] : 0.0;
@@ -87,25 +90,26 @@ class AppStateNotifier extends ChangeNotifier {
     barDataList = [];
     await activeBudgetService.getCurrentBudgetDate();
     DateTime curBudgetDate = DateTime.parse(activeBudgetService.curDateStr);
-    DateTime lastUpdatedDate = DateTime.parse(activeBudgetService.lastUpdatedDateStr);
+    DateTime lastUpdatedDate =
+        DateTime.parse(activeBudgetService.lastUpdatedDateStr);
     int itemDate = curBudgetDate.millisecondsSinceEpoch;
     int itemUpdatedDate = lastUpdatedDate.millisecondsSinceEpoch;
     //debugPrint('App All date => $startDate, $endDate');
     //debugPrint('App All full date => ${fullDateFormatted(date: DateTime.fromMillisecondsSinceEpoch(startDate))}, ${fullDateFormatted(date: DateTime.fromMillisecondsSinceEpoch(endDate))}');
     expenseItemList = [];
-    if(startDate == null || endDate == null){
-      expenseItemList = await _db.getAllExpenseItems(startDate: itemDate,endDate: itemUpdatedDate);
-    }else{
-      expenseItemList = await _db.getAllExpenseItems(startDate: startDate,endDate: endDate);
+    if (startDate == null || endDate == null) {
+      expenseItemList = await _db.getAllExpenseItems(
+          startDate: itemDate, endDate: itemUpdatedDate);
+    } else {
+      expenseItemList =
+          await _db.getAllExpenseItems(startDate: startDate, endDate: endDate);
     }
     expenseItemList.forEach((value) {
-      barDataList.add(
-          ExpenseSeries(
-            category: value['categoryName'],
-            actualCost: value['actualCost'],
-            barColor: charts.ColorUtil.fromDartColor(Colors.blue),
-          )
-      );
+      barDataList.add(ExpenseSeries(
+        category: value['categoryName'],
+        actualCost: value['actualCost'],
+        barColor: charts.ColorUtil.fromDartColor(Colors.blue),
+      ));
     });
     //print('App barDataList => ${barDataList[0].toString()}');
     //await _db.getAllExpense();
