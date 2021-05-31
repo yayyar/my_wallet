@@ -1,16 +1,3 @@
-# my_wallet
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# MyBudget
+This is my one of the freelance App development :heart_eyes:
+- Get [App](https://appgallery.cloud.huawei.com/ag/n/app/C103570453?locale=en_US&amp;source=appshare&amp;subsource=C103570453) now on Huawei AppGallery
