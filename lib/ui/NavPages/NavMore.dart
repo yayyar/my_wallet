@@ -4,6 +4,7 @@ import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/Currency.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavMore extends StatefulWidget {
@@ -14,7 +15,12 @@ class NavMore extends StatefulWidget {
 class _NavMoreState extends State<NavMore> {
   //String toLaunch = 'fb://page/103594718332924';
   String toLaunch = 'https://www.facebook.com/103594718332924/posts/104530501572679/';
-  String _selectedCurrencyCode = 'MMK',_selectedCurrencySymbol = 'K';
+  String currencyCode='', currencySymbol='';
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrency();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +45,18 @@ class _NavMoreState extends State<NavMore> {
                 ),
                SettingsTile(
                  title: 'Currency',
-                 subtitle: _selectedCurrencyCode,
+                 subtitle: currencyCode,
                  subtitleTextStyle: TextStyle(
                    color: const Color(0xff2491ea),
                  ),
-                 leading: Text(_selectedCurrencySymbol,style: TextStyle(
-                   fontSize: 20,
-                   color: const Color(0xff2491ea),
-                 ),),
+                 leading: CircleAvatar(
+                   backgroundColor: Colors.transparent,
+                   radius: 12,
+                   child: Text(currencySymbol,style: TextStyle(
+                     fontSize: 20,
+                     color: const Color(0xff2491ea),
+                   ),),
+                 ),
                  onTap: () {
                    _changeCurrencySymbol(context);
                  },
@@ -114,10 +124,6 @@ class _NavMoreState extends State<NavMore> {
   }
 
   void _changeCurrencySymbol(BuildContext context) {
-    // Locale locale = Localizations.localeOf(context);
-    // var format = NumberFormat.simpleCurrency(locale: locale.toString());
-    // print("CURRENCY SYMBOL ${format.currencySymbol}");
-    // print("CURRENCY NAME ${format.currencyName}");
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -129,21 +135,33 @@ class _NavMoreState extends State<NavMore> {
                 leading: CircleAvatar(child:Text(data.symbol)),
                 title: Text(data.code,
                 style: TextStyle(
-                  color: data.code == _selectedCurrencyCode ? Colors.white : null
+                  color: data.code == currencyCode ? Colors.white : null
                 ),),
                 onTap: () {
-                  setState(() {
-                    _selectedCurrencyCode = data.code;
-                    _selectedCurrencySymbol = data.symbol;
-                  });
-                  Navigator.pop(context);
+                  _setCurrency(data.code, data.symbol, context);
                 },
-                selected: data.code == _selectedCurrencyCode,
+                selected: data.code == currencyCode,
                 selectedTileColor: Colors.blue
               ),
             ],
           );
         });
+  }
+
+  _loadCurrency() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currencyCode = (prefs.getString('code') ?? 'MMK');
+      currencySymbol = (prefs.getString('symbol') ?? 'K');
+    });
+  }
+
+  void _setCurrency(String code, String symbol, BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('code', code);
+    prefs.setString('symbol', symbol);
+    Navigator.pop(context);
+    _loadCurrency();
   }
 
  // void _changeLanguage() {

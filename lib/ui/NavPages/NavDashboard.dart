@@ -7,6 +7,7 @@ import 'package:my_wallet/util/ActiveBudgetService.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavDashboard extends StatefulWidget {
   @override
@@ -18,6 +19,14 @@ class _NavDashboardState extends State<NavDashboard> {
   String _startDateStr, _endDateStr;
   int startPickedDate, endPickedDate;
   var activeBudgetService = new ActiveBudgetService();
+  String currencySymbol = '';
+
+  _loadCurrency() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currencySymbol = (prefs.getString('symbol') ?? 'K');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,7 +233,7 @@ class _NavDashboardState extends State<NavDashboard> {
               ],
             ),
             Text(
-              '${currencyFormat(data: cost)} Ks',
+              '$currencySymbol ${currencyFormat(data: cost)}',
               style: FlResponsiveUI().getTextStyleRegular(
                 fontSize: 20,
               ),
@@ -252,6 +261,7 @@ class _NavDashboardState extends State<NavDashboard> {
   void initState() {
     super.initState();
     _initDate();
+    _loadCurrency();
   }
 
   _initDate() async {

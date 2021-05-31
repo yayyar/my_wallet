@@ -14,6 +14,7 @@ import 'package:my_wallet/util/DateTools.dart';
 //import 'package:open_file/open_file.dart';
 //import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavHome extends StatefulWidget {
   @override
@@ -38,6 +39,14 @@ class _NavHomeState extends State<NavHome> {
   //bool _isFlClick = false;
   //PermissionStatus _permissionStatus = PermissionStatus.undetermined;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  String currencySymbol = '';
+
+  _loadCurrency() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      currencySymbol = (prefs.getString('symbol') ?? 'K');
+    });
+  }
 
   _getActiveBudgetCategoryList() async {
     _activeCategoryList = [];
@@ -79,6 +88,7 @@ class _NavHomeState extends State<NavHome> {
   void initState() {
     super.initState();
     _initDate();
+    _loadCurrency();
   }
 
   @override
@@ -325,7 +335,7 @@ class _NavHomeState extends State<NavHome> {
               ),
             ),
             Text(
-              '${currencyFormat(data: cost)} Ks',
+              '$currencySymbol ${currencyFormat(data: cost)}',
               style: FlResponsiveUI().getTextStyleRegular(
                 fontSize: 20,
               ),
