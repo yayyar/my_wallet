@@ -130,7 +130,7 @@ class AppStateNotifier extends ChangeNotifier {
     loadCurrency();
   }
 
-  void loadCurrency() async{
+  void loadCurrency() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _currencySymbol = (prefs.getString('symbol') ?? 'K');
     _currencyCode = (prefs.getString('code') ?? 'MMK');

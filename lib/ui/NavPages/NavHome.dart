@@ -60,14 +60,15 @@ class _NavHomeState extends State<NavHome> {
 
     await activeBudgetService.getCurrentBudgetDate();
     DateTime curBudgetDate = DateTime.parse(activeBudgetService.curDateStr);
-    DateTime lastUpdateDate = DateTime.parse(activeBudgetService.lastUpdatedDateStr);
+    DateTime lastUpdateDate =
+        DateTime.parse(activeBudgetService.lastUpdatedDateStr);
     _dateFormatted(dateTime: [curBudgetDate, lastUpdateDate]);
 
     int count = await _db.findActiveBudget();
     setState(() {
-      if(count == 1){
+      if (count == 1) {
         _isActiveBudget = true;
-      }else{
+      } else {
         _isActiveBudget = false;
       }
     });
@@ -141,23 +142,32 @@ class _NavHomeState extends State<NavHome> {
                                                 _dateRangeList != null
                                                     ? _dateRangeList[0]
                                                     : new DateTime.now(),
-                                            initialLastDate:
-                                                _dateRangeList != null
-                                                    ? _dateRangeList[1]
-                                                    : new DateTime.now(),
+                                            initialLastDate: _dateRangeList != null
+                                                ? _dateRangeList[1]
+                                                : new DateTime.now(),
                                             firstDate: new DateTime(
-                                                DateTime.parse(_dateRangeList[0].toString()).year - 2),
+                                                DateTime.parse(_dateRangeList[0].toString()).year -
+                                                    2),
                                             lastDate: new DateTime(
-                                                DateTime.parse(_dateRangeList[0].toString()).year + 2),
+                                                DateTime.parse(_dateRangeList[0]
+                                                            .toString())
+                                                        .year +
+                                                    2),
                                             selectableDayPredicate:
-                                                 allowCurrentMonthDay);
+                                                allowCurrentMonthDay);
                                     if (picked != null && picked.length == 2) {
                                       _dateFormatted(dateTime: picked);
-                                      final _appStateNotifier = Provider.of<AppStateNotifier>(context, listen: false);
+                                      final _appStateNotifier =
+                                          Provider.of<AppStateNotifier>(context,
+                                              listen: false);
                                       //startPickedDate = DateTime.parse(fullDateFormatted(date: picked[0])).millisecondsSinceEpoch;
                                       //endPickedDate = DateTime.parse(fullDateFormatted(date: picked[1])).millisecondsSinceEpoch;
-                                      _appStateNotifier.getAllExpenseItems(startDate: startPickedDate,endDate: endPickedDate);
-                                      _appStateNotifier.getActualCost(startDate: startPickedDate,endDate: endPickedDate);
+                                      _appStateNotifier.getAllExpenseItems(
+                                          startDate: startPickedDate,
+                                          endDate: endPickedDate);
+                                      _appStateNotifier.getActualCost(
+                                          startDate: startPickedDate,
+                                          endDate: endPickedDate);
                                     }
                                   },
                                   child: Row(
@@ -203,13 +213,13 @@ class _NavHomeState extends State<NavHome> {
                                     reportCard(
                                         title: "Estimate",
                                         cost: appState.estimateCost,
-                                      currencySymbol: appState.currencySymbol
-                                    ),
+                                        currencySymbol:
+                                            appState.currencySymbol),
                                     reportCard(
                                         title: "Actual",
                                         cost: appState.actualCost,
-                                      currencySymbol: appState.currencySymbol
-                                    ),
+                                        currencySymbol:
+                                            appState.currencySymbol),
                                   ],
                                 ),
                               ),
@@ -225,23 +235,23 @@ class _NavHomeState extends State<NavHome> {
             NewExpenseListView(
               items: appState.expenseItemList,
               startDate: startPickedDate,
-                endDate: endPickedDate,
+              endDate: endPickedDate,
             )
           ],
         );
       }),
-     floatingActionButton: Visibility(
-       visible: _isActiveBudget,
-       child: FloatingActionButton(
-         tooltip: "Add new expense",
-         onPressed: () {
-           _addNewItemDialog();
-         },
-         child: Icon(
-           Icons.edit,
-         ),
-       ),
-     ),
+      floatingActionButton: Visibility(
+        visible: _isActiveBudget,
+        child: FloatingActionButton(
+          tooltip: "Add new expense",
+          onPressed: () {
+            _addNewItemDialog();
+          },
+          child: Icon(
+            Icons.edit,
+          ),
+        ),
+      ),
 //       floatingActionButton: Visibility(
 //         visible: _isActiveBudget,
 //         child: Stack(
@@ -346,8 +356,12 @@ class _NavHomeState extends State<NavHome> {
       _dateRangeList = dateTime;
       //debugPrint('dateTimePickParse=> ${DateTime.parse(_dateRangeList[0].toString()).year}');
       setState(() {
-        startPickedDate = DateTime.parse(fullDateFormatted(date: _dateRangeList[0])).millisecondsSinceEpoch;
-        endPickedDate = DateTime.parse(fullDateFormatted(date: _dateRangeList[1])).millisecondsSinceEpoch;
+        startPickedDate =
+            DateTime.parse(fullDateFormatted(date: _dateRangeList[0]))
+                .millisecondsSinceEpoch;
+        endPickedDate =
+            DateTime.parse(fullDateFormatted(date: _dateRangeList[1]))
+                .millisecondsSinceEpoch;
         _startDateStr = dayMonthFormatted(date: _dateRangeList[0]);
         _endDateStr = dayMonthFormatted(date: _dateRangeList[1]);
       });
@@ -410,17 +424,24 @@ class _NavHomeState extends State<NavHome> {
                                       !_actualCostValidator &&
                                       categoryName.isNotEmpty &&
                                       _categoryId != 0) {
-                                    int itemDate = DateTime.parse(fullDateFormatted(date: DateTime.now())).millisecondsSinceEpoch;
-                                    String monthYear = monthYearFormatted(date: DateTime.now());
-                                    String updateExpenseDate = fullDateFormatted(date: DateTime.now());
+                                    int itemDate = DateTime.parse(
+                                            fullDateFormatted(
+                                                date: DateTime.now()))
+                                        .millisecondsSinceEpoch;
+                                    String monthYear = monthYearFormatted(
+                                        date: DateTime.now());
+                                    String updateExpenseDate =
+                                        fullDateFormatted(date: DateTime.now());
                                     ExpenseItem expenseItem = new ExpenseItem(
                                         _itemNameController.text,
                                         double.parse(
                                             _itemExpenseController.text),
                                         itemDate,
-                                        _categoryId,monthYear);
+                                        _categoryId,
+                                        monthYear);
                                     await _db.saveExpenseItem(expenseItem);
-                                    await _db.updateBudgetExpenseDate(updateExpenseDate);
+                                    await _db.updateBudgetExpenseDate(
+                                        updateExpenseDate);
                                     _appStateNotifier.getAllExpenseItems();
                                     _appStateNotifier.getEstimateCost();
                                     _appStateNotifier.getActualCost();
@@ -500,8 +521,9 @@ class _NavHomeState extends State<NavHome> {
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 labelText: "Cost",
-                                errorText:
-                                    _actualCostValidator ? 'Invalid cost' : null,
+                                errorText: _actualCostValidator
+                                    ? 'Invalid cost'
+                                    : null,
                                 icon: Icon(Icons.data_usage),
                               ),
                             ),

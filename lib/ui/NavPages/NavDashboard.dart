@@ -143,13 +143,13 @@ class _NavDashboardState extends State<NavDashboard> {
                                     reportCard(
                                         title: "Estimate",
                                         cost: appState.estimateCost,
-                                      currencySymbol: appState.currencySymbol
-                                    ),
+                                        currencySymbol:
+                                            appState.currencySymbol),
                                     reportCard(
                                         title: "Actual",
                                         cost: appState.actualCost,
-                                        currencySymbol: appState.currencySymbol
-                                    ),
+                                        currencySymbol:
+                                            appState.currencySymbol),
                                   ],
                                 ),
                               ),
@@ -171,15 +171,15 @@ class _NavDashboardState extends State<NavDashboard> {
                           margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                           child: appState.actualCost > appState.estimateCost
                               ? Center(
-                                child: Container(
+                                  child: Container(
                                     child: Text(
-                                        'Overload cost ${appState.currencySymbol} ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
-                                    style: FlResponsiveUI().getTextStyleRegular(
-                                      color: Colors.red,
-                                      fontSize: 18
-                                    ),),
+                                      'Overload cost ${appState.currencySymbol} ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
+                                      style: FlResponsiveUI()
+                                          .getTextStyleRegular(
+                                              color: Colors.red, fontSize: 18),
+                                    ),
                                   ),
-                              )
+                                )
                               : CircularProgressPage(
                                   expectCost: appState.estimateCost,
                                   actualCost: appState.actualCost,
