@@ -14,7 +14,6 @@ import 'package:my_wallet/util/DateTools.dart';
 //import 'package:open_file/open_file.dart';
 //import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NavHome extends StatefulWidget {
   @override
@@ -39,14 +38,6 @@ class _NavHomeState extends State<NavHome> {
   //bool _isFlClick = false;
   //PermissionStatus _permissionStatus = PermissionStatus.undetermined;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String currencySymbol = '';
-
-  _loadCurrency() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      currencySymbol = (prefs.getString('symbol') ?? 'K');
-    });
-  }
 
   _getActiveBudgetCategoryList() async {
     _activeCategoryList = [];
@@ -88,7 +79,6 @@ class _NavHomeState extends State<NavHome> {
   void initState() {
     super.initState();
     _initDate();
-    _loadCurrency();
   }
 
   @override
@@ -212,10 +202,14 @@ class _NavHomeState extends State<NavHome> {
                                   children: [
                                     reportCard(
                                         title: "Estimate",
-                                        cost: appState.estimateCost),
+                                        cost: appState.estimateCost,
+                                      currencySymbol: appState.currencySymbol
+                                    ),
                                     reportCard(
                                         title: "Actual",
-                                        cost: appState.actualCost),
+                                        cost: appState.actualCost,
+                                      currencySymbol: appState.currencySymbol
+                                    ),
                                   ],
                                 ),
                               ),
@@ -320,7 +314,7 @@ class _NavHomeState extends State<NavHome> {
     );
   }
 
-  Widget reportCard({String title, double cost}) {
+  Widget reportCard({String title, double cost, String currencySymbol}) {
     return Container(
       width: FlResponsiveUI().getProportionalWidth(width: 230.0),
       height: FlResponsiveUI().getProportionalHeight(height: 105.0),

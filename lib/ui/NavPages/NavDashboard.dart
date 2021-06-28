@@ -7,7 +7,6 @@ import 'package:my_wallet/util/ActiveBudgetService.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NavDashboard extends StatefulWidget {
   @override
@@ -19,14 +18,6 @@ class _NavDashboardState extends State<NavDashboard> {
   String _startDateStr, _endDateStr;
   int startPickedDate, endPickedDate;
   var activeBudgetService = new ActiveBudgetService();
-  String currencySymbol = '';
-
-  _loadCurrency() async{
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      currencySymbol = (prefs.getString('symbol') ?? 'K');
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,10 +142,14 @@ class _NavDashboardState extends State<NavDashboard> {
                                   children: [
                                     reportCard(
                                         title: "Estimate",
-                                        cost: appState.estimateCost),
+                                        cost: appState.estimateCost,
+                                      currencySymbol: appState.currencySymbol
+                                    ),
                                     reportCard(
                                         title: "Actual",
-                                        cost: appState.actualCost),
+                                        cost: appState.actualCost,
+                                        currencySymbol: appState.currencySymbol
+                                    ),
                                   ],
                                 ),
                               ),
@@ -178,7 +173,7 @@ class _NavDashboardState extends State<NavDashboard> {
                               ? Center(
                                 child: Container(
                                     child: Text(
-                                        'Overload cost $currencySymbol ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
+                                        'Overload cost ${appState.currencySymbol} ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
                                     style: FlResponsiveUI().getTextStyleRegular(
                                       color: Colors.red,
                                       fontSize: 18
@@ -200,7 +195,7 @@ class _NavDashboardState extends State<NavDashboard> {
     );
   }
 
-  Widget reportCard({String title, double cost}) {
+  Widget reportCard({String title, double cost, String currencySymbol}) {
     return Container(
       width: FlResponsiveUI().getProportionalWidth(width: 230.0),
       height: FlResponsiveUI().getProportionalHeight(height: 105.0),
@@ -261,7 +256,6 @@ class _NavDashboardState extends State<NavDashboard> {
   void initState() {
     super.initState();
     _initDate();
-    _loadCurrency();
   }
 
   _initDate() async {

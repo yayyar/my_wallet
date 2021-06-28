@@ -19,6 +19,12 @@ class AppStateNotifier extends ChangeNotifier {
   var activeBudgetService = new ActiveBudgetService();
   List<ExpenseSeries> barDataList = [];
 
+  String _currencySymbol = 'K';
+  String get currencySymbol => _currencySymbol;
+
+  String _currencyCode = 'MMK';
+  String get currencyCode => _currencyCode;
+
   AppStateNotifier(this._prefs) {
     _isDarkMode = _prefs.getBool('themeMode') ?? false;
   }
@@ -113,6 +119,21 @@ class AppStateNotifier extends ChangeNotifier {
     });
     //print('App barDataList => ${barDataList[0].toString()}');
     //await _db.getAllExpense();
+    notifyListeners();
+  }
+
+  void setCurrency(String code, String symbol, BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('code', code);
+    prefs.setString('symbol', symbol);
+    Navigator.pop(context);
+    loadCurrency();
+  }
+
+  void loadCurrency() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _currencySymbol = (prefs.getString('symbol') ?? 'K');
+    _currencyCode = (prefs.getString('code') ?? 'MMK');
     notifyListeners();
   }
 }

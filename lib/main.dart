@@ -1,6 +1,7 @@
 //import 'package:device_preview/device_preview.dart';
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_wallet/ui/MyHomePage.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.blueGrey,
+        statusBarIconBrightness: Brightness.light));
 //    return MaterialApp(
 //      locale: DevicePreview.of(context).locale, // <--- /!\ Add the locale
 //      builder: DevicePreview.appBuilder, // <--- /!\ Add the builder
@@ -42,7 +46,7 @@ class MyApp extends StatelessWidget {
 //      home: MyHomePage(title: 'MyWallet'),
 //    );
     return Consumer<AppStateNotifier>(
-      builder: (context, appState, child){
+      builder: (context, appState, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'MyWallet',
@@ -50,8 +54,8 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blueGrey,
               primaryColor: Colors.blueGrey,
               visualDensity: VisualDensity.adaptivePlatformDensity,
-              brightness: appState.isDarkMode ? Brightness.dark : Brightness.light
-          ),
+              brightness:
+                  appState.isDarkMode ? Brightness.dark : Brightness.light),
           home: MyHomePage(title: 'MyWallet'),
         );
       },
