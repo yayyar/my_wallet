@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_wallet/ui/ReportPages/BudgetPage.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
-import 'package:my_wallet/util/Currency.dart';
+import 'package:my_wallet/model/Currency.dart';
 import 'package:provider/provider.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NavMore extends StatefulWidget {
@@ -39,7 +39,7 @@ class _NavMoreState extends State<NavMore> {
                   tiles: [
                     SettingsTile.switchTile(
                       title: 'Dark mode',
-                      leading: Icon(Icons.brightness_2),
+                      leading: Icon(appState.isDarkMode ? Icons.brightness_3 :CupertinoIcons.brightness_solid,),
                       switchValue:
                           appState.isDarkMode,
                       onToggle: (bool value) {
@@ -64,7 +64,7 @@ class _NavMoreState extends State<NavMore> {
                           ),
                         ),
                       ),
-                      onTap: () {
+                      onPressed: (context) {
                         _changeCurrencySymbol(context, appState);
                       },
                     ),
@@ -77,7 +77,7 @@ class _NavMoreState extends State<NavMore> {
                       title: 'Budget',
                       subtitle: 'Budget list',
                       leading: Icon(Icons.style),
-                      onTap: () {
+                      onPressed: (context) {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
                           return BudgetPage();
@@ -92,12 +92,12 @@ class _NavMoreState extends State<NavMore> {
                     SettingsTile(
                       title: 'Feedback',
                       leading: Icon(Icons.mail),
-                      onTap: () => _launchMail(),
+                      onPressed: (context) => _launchMail(),
                     ),
                     SettingsTile(
                       title: 'About',
                       leading: Icon(Icons.info),
-                      onTap: () => _launchPage(toLaunch),
+                      onPressed: (context) => _launchPage(toLaunch),
                     ),
                   ],
                 ),

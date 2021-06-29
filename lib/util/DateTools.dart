@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_wallet/util/ActiveBudgetService.dart';
 
 //full fate format
 String fullDateFormatted({@required DateTime date}) {
@@ -22,19 +21,6 @@ String monthYearFormatted({@required DateTime date}) {
   String formatDate = formatter.format(date);
   return formatDate;
 }
-
-// allow date on current month
-// bool allowCurrentMonthDay(DateTime date) {
-//   //print('date => $date');
-//   var activeBudgetService = new ActiveBudgetService();
-//   String curDateStr = activeBudgetService.curDateStr;
-//   //print('curDateStrTwo => $curDateStr');
-//   if (date.month == DateTime.parse(curDateStr).month) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
 
 String intDate({@required DateTime date}){
   var formatter = new DateFormat().add_ms();
