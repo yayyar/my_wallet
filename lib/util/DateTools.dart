@@ -24,17 +24,17 @@ String monthYearFormatted({@required DateTime date}) {
 }
 
 // allow date on current month
-bool allowCurrentMonthDay(DateTime date) {
-  //print('date => $date');
-  var activeBudgetService = new ActiveBudgetService();
-  String curDateStr = activeBudgetService.curDateStr;
-  //print('curDateStrTwo => $curDateStr');
-  if (date.month == DateTime.parse(curDateStr).month) {
-    return true;
-  } else {
-    return false;
-  }
-}
+// bool allowCurrentMonthDay(DateTime date) {
+//   //print('date => $date');
+//   var activeBudgetService = new ActiveBudgetService();
+//   String curDateStr = activeBudgetService.curDateStr;
+//   //print('curDateStrTwo => $curDateStr');
+//   if (date.month == DateTime.parse(curDateStr).month) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 
 String intDate({@required DateTime date}){
   var formatter = new DateFormat().add_ms();
@@ -52,4 +52,8 @@ String fullDateAndTime({@required DateTime date}) {
   var formatter = new DateFormat('yyyy-MM-dd HH:MM:ss');
   String formatDate = formatter.format(date);
   return formatDate;
+}
+
+int strDateToMilliseconds(String date) {
+  return DateTime.parse(date).millisecondsSinceEpoch;
 }

@@ -33,101 +33,103 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
             title: Text(
           '${widget.title != null ? widget.title : 'CC'}',
         )),
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                    color: Colors.blueGrey,
+        body: Consumer<AppStateNotifier>(builder: (context, appState, child) {
+          return Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => Divider(
+                      color: Colors.blueGrey,
+                    ),
+                    itemCount: _expenseItemsList.length,
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onLongPress: () {
+                          _deleteItemDialog(
+                              _expenseItemsList[index]['itemId'], index);
+                        },
+                        child: Container(
+                          height: 55,
+                          child: Stack(
+                            children: [
+                              Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${_expenseItemsList[index]['itemNameDescription']}',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 2,
+                                          ),
+                                          Text(
+                                            '${fullDateFormatted(date: DateTime.fromMillisecondsSinceEpoch(_expenseItemsList[index]['itemDate']))}',
+                                            style: TextStyle(
+                                              fontSize: 10,
+                                            ),
+                                          ),
+                                        ],
+                                      ))),
+                              Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      '${_expenseItemsList[index]['actualCost']} ${appState.currencySymbol}',
+                                      style: TextStyle(fontSize: 12.0),
+                                    ),
+                                  )),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  itemCount: _expenseItemsList.length,
-                  padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onLongPress: () {
-                        _deleteItemDialog(
-                            _expenseItemsList[index]['itemId'], index);
-                      },
-                      child: Container(
-                        height: 55,
-                        child: Stack(
-                          children: [
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${_expenseItemsList[index]['itemNameDescription']}',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 2,
-                                        ),
-                                        Text(
-                                          '${fullDateFormatted(date: DateTime.fromMillisecondsSinceEpoch(_expenseItemsList[index]['itemDate']))}',
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                          ),
-                                        ),
-                                      ],
-                                    ))),
-                            Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    '${_expenseItemsList[index]['actualCost']} Ks',
-                                    style: TextStyle(fontSize: 12.0),
-                                  ),
-                                )),
-                          ],
+                ),
+                Container(
+                  color: Colors.blueGrey,
+                  height: FlResponsiveUI().getProportionalHeight(height: 65),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'Estimate:   $_estimateCost ${appState.currencySymbol}',
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                color: Colors.blueGrey,
-                height: FlResponsiveUI().getProportionalHeight(height: 65),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'Estimate:   $_estimateCost Ks',
-                      style: TextStyle(
-                        color: Colors.white,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+                        child: VerticalDivider(
+                          color: Colors.white,
+                          thickness: 1.0,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-                      child: VerticalDivider(
-                        color: Colors.white,
-                        thickness: 1.0,
+                      Text(
+                        'Actual:   $_actualCost ${appState.currencySymbol}',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Actual:   $_actualCost Ks',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ));
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+        }));
   }
 
   _getExpenseItems() async {

@@ -1,11 +1,10 @@
 import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:my_wallet/ui/ChartPages/CircularProgressPage.dart';
 import 'package:my_wallet/ui/ChartPages/BarChartPage.dart';
-import 'package:my_wallet/util/ActiveBudgetService.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
+import 'package:my_wallet/widget/date_range_picker.dart';
 import 'package:provider/provider.dart';
 
 class NavDashboard extends StatefulWidget {
@@ -14,10 +13,6 @@ class NavDashboard extends StatefulWidget {
 }
 
 class _NavDashboardState extends State<NavDashboard> {
-  List<dynamic> _dateRangeList;
-  String _startDateStr, _endDateStr;
-  int startPickedDate, endPickedDate;
-  var activeBudgetService = new ActiveBudgetService();
 
   @override
   Widget build(BuildContext context) {
@@ -62,70 +57,7 @@ class _NavDashboardState extends State<NavDashboard> {
                                 style: FlResponsiveUI().getTextStyleRegular(
                                     fontSize: 20, color: Colors.white70),
                               ),
-                              Container(
-                                padding: const EdgeInsets.all(6.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.cyan),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: InkWell(
-                                  onTap: () async {
-                                    final List<DateTime> picked =
-                                        await DateRangePicker.showDatePicker(
-                                            context: context,
-                                            initialFirstDate:
-                                                _dateRangeList != null
-                                                    ? _dateRangeList[0]
-                                                    : new DateTime.now(),
-                                            initialLastDate:
-                                                _dateRangeList != null
-                                                    ? _dateRangeList[1]
-                                                    : new DateTime.now(),
-                                            firstDate: new DateTime(
-                                                DateTime.now().year - 2),
-                                            lastDate: new DateTime(
-                                                DateTime.now().year + 2),
-                                            selectableDayPredicate:
-                                                allowCurrentMonthDay);
-                                    if (picked != null && picked.length == 2) {
-                                      _dateFormatted(dateTime: picked);
-                                      final _appStateNotifier =
-                                          Provider.of<AppStateNotifier>(context,
-                                              listen: false);
-                                      _appStateNotifier.getActualCost(
-                                          startDate: startPickedDate,
-                                          endDate: endPickedDate);
-                                      _appStateNotifier.getAllExpenseItems(
-                                          startDate: startPickedDate,
-                                          endDate: endPickedDate);
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        '${_startDateStr != null ? _startDateStr : 'MM'}',
-                                        style: FlResponsiveUI()
-                                            .getTextStyleRegular(
-                                                fontSize: 14,
-                                                color: Colors.white),
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.yellow[600],
-                                        size: FlResponsiveUI()
-                                            .getProportionalWidth(width: 15),
-                                      ),
-                                      Text(
-                                        '${_endDateStr != null ? _endDateStr : 'DD'}',
-                                        style: FlResponsiveUI()
-                                            .getTextStyleRegular(
-                                                fontSize: 14,
-                                                color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
+                              DateRangePickerWidget(),
                             ],
                           ),
                         ),
@@ -237,38 +169,5 @@ class _NavDashboardState extends State<NavDashboard> {
         ),
       ),
     );
-  }
-
-  void _dateFormatted({List dateTime}) {
-    setState(() {
-      _dateRangeList = dateTime;
-      startPickedDate =
-          DateTime.parse(fullDateFormatted(date: _dateRangeList[0]))
-              .millisecondsSinceEpoch;
-      endPickedDate = DateTime.parse(fullDateFormatted(date: _dateRangeList[1]))
-          .millisecondsSinceEpoch;
-      _startDateStr = dayMonthFormatted(date: _dateRangeList[0]);
-      _endDateStr = dayMonthFormatted(date: _dateRangeList[1]);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _initDate();
-  }
-
-  _initDate() async {
-    var now = DateTime.now();
-    setState(() {
-      _startDateStr = dayMonthFormatted(date: now);
-      _endDateStr = dayMonthFormatted(date: now);
-    });
-
-    await activeBudgetService.getCurrentBudgetDate();
-    DateTime curBudgetDate = DateTime.parse(activeBudgetService.curDateStr);
-    DateTime lastUpdateDate =
-        DateTime.parse(activeBudgetService.lastUpdatedDateStr);
-    _dateFormatted(dateTime: [curBudgetDate, lastUpdateDate]);
   }
 }

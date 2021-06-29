@@ -1,4 +1,5 @@
 import 'package:fl_responsive_ui/fl_responsive_ui.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
@@ -30,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final _appStateNotifier =
         Provider.of<AppStateNotifier>(context, listen: false);
     if (_doNavHome) {
+      _appStateNotifier.loadCurrency();
       _appStateNotifier.getAllExpenseItems();
       _appStateNotifier.getEstimateCost();
       _appStateNotifier.getActualCost();
@@ -39,47 +41,59 @@ class _MyHomePageState extends State<MyHomePage> {
     FlResponsiveUI().updateScreenDimension(
         width: screeSize.width, height: screeSize.height);
     return Scaffold(
-      body: _widgetNavPages.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.more_horiz),
-            label: 'More',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          if (_isNavHome && index == 0) {
-            _appStateNotifier.getAllExpenseItems();
-            _appStateNotifier.getEstimateCost();
-            _appStateNotifier.getActualCost();
-            _isNavHome = false;
-          }
-          if (index != 0) {
-            _isNavHome = true;
-          }
-          if (_isNavDashboard && index == 1) {
-            _appStateNotifier.getAllExpenseItems();
-            _appStateNotifier.getEstimateCost();
-            _appStateNotifier.getActualCost();
-            _isNavDashboard = false;
-          }
-          if (index != 1) {
-            _isNavDashboard = true;
-          }
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-      ),
-    );
+        body: _widgetNavPages.elementAt(_selectedIndex),
+        bottomNavigationBar:
+            Consumer<AppStateNotifier>(builder: (context, appState, child) {
+          return BottomNavigationBar(
+            showSelectedLabels: true,
+            showUnselectedLabels: false,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.chart_pie),
+                label: 'Dashboard',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(CupertinoIcons.ellipsis),
+                label: 'More',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: (index) {
+              if (_isNavHome && index == 0) {
+                appState.getActualCost(
+                    startDate: strDateToMilliseconds(appState.activeStartDate),
+                    endDate: strDateToMilliseconds(appState.activeEndDate));
+                appState.getEstimateCost();
+                appState.getAllExpenseItems(
+                    startDate: strDateToMilliseconds(appState.activeStartDate),
+                    endDate: strDateToMilliseconds(appState.activeEndDate));
+                _isNavHome = false;
+              }
+              if (index != 0) {
+                _isNavHome = true;
+              }
+              if (_isNavDashboard && index == 1) {
+                appState.getActualCost(
+                    startDate: strDateToMilliseconds(appState.activeStartDate),
+                    endDate: strDateToMilliseconds(appState.activeEndDate));
+                appState.getEstimateCost();
+                appState.getAllExpenseItems(
+                    startDate: strDateToMilliseconds(appState.activeStartDate),
+                    endDate: strDateToMilliseconds(appState.activeEndDate));
+                _isNavDashboard = false;
+              }
+              if (index != 1) {
+                _isNavDashboard = true;
+              }
+              setState(() {
+                _selectedIndex = index;
+              });
+            },
+          );
+        }));
   }
 }

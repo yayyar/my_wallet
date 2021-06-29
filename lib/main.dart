@@ -29,9 +29,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.blueGrey,
-        statusBarIconBrightness: Brightness.light));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //     statusBarColor: Colors.blueGrey,
+    //     statusBarIconBrightness: Brightness.light));
 //    return MaterialApp(
 //      locale: DevicePreview.of(context).locale, // <--- /!\ Add the locale
 //      builder: DevicePreview.appBuilder, // <--- /!\ Add the builder
