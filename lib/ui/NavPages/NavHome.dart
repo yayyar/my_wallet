@@ -1,5 +1,5 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_wallet/model/ExpenseItem.dart';
 import 'package:my_wallet/ui/ReportPages/NewExpenseListView.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
@@ -64,10 +64,8 @@ class _NavHomeState extends State<NavHome> {
         //debugPrint("Consumer=> ${appState.estimateCost}, ${appState.actualCost}, ${appState.expenseItemList.toString()}");
         return Column(
           children: [
-            Container(
-              // top layer
-              //color: Colors.black45,
-              height: FlResponsiveUI().getProportionalHeight(height: 190.0),
+            SizedBox(
+              height: 190.h,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -78,8 +76,7 @@ class _NavHomeState extends State<NavHome> {
                         Container(
                           alignment: Alignment.topCenter,
                           width: double.infinity,
-                          height: FlResponsiveUI()
-                              .getProportionalHeight(height: 150.0),
+                          height: 150.h,
                           decoration: BoxDecoration(
                             color: Colors.blueGrey,
                             borderRadius: BorderRadius.only(
@@ -95,7 +92,7 @@ class _NavHomeState extends State<NavHome> {
                             children: [
                               Text(
                                 'MyBudget',
-                                style: FlResponsiveUI().getTextStyleRegular(
+                                style: TextStyle(
                                     fontSize: 20, color: Colors.white70),
                               ),
                               DateRangePickerWidget(),
@@ -165,23 +162,19 @@ class _NavHomeState extends State<NavHome> {
       required double cost,
       required String currencySymbol}) {
     return Container(
-      width: FlResponsiveUI().getProportionalWidth(width: 230.0),
-      height: FlResponsiveUI().getProportionalHeight(height: 105.0),
+      width: 230.w,
+      height: 105.h,
       child: Card(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               title,
-              style: FlResponsiveUI().getTextStyleRegular(
-                fontSize: 18,
-              ),
+              style: TextStyle(fontSize: 18.sp),
             ),
             Text(
               '$currencySymbol ${currencyFormat(data: cost)}',
-              style: FlResponsiveUI().getTextStyleRegular(
-                fontSize: 20,
-              ),
+              style: TextStyle(fontSize: 20.sp),
             )
           ],
         ),

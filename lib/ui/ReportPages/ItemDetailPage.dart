@@ -1,5 +1,5 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/Database/DatabaseHelper.dart';
 import 'package:my_wallet/util/DateTools.dart';
@@ -104,7 +104,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
                 ),
                 Container(
                   color: Colors.blueGrey,
-                  height: FlResponsiveUI().getProportionalHeight(height: 65),
+                  height: 65.h,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

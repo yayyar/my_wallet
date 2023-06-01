@@ -1,5 +1,5 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class CircularProgressPage extends StatefulWidget {
@@ -13,7 +13,7 @@ class _CircularProgressPageState extends State<CircularProgressPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: FlResponsiveUI().getProportionalHeight(height: 180.0),
+      height: 180.h,
       child: Card(
         margin: EdgeInsets.only(left: 9.0, right: 9.0),
         //color: const Color(0xff2c4260),

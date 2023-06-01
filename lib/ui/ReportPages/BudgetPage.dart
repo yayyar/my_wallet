@@ -1,5 +1,5 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_wallet/model/BudgetItem.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/Database/DatabaseHelper.dart';
@@ -87,7 +87,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     _budgetItemsList[index].toMap()["budgetStatus"]);
               },
               child: Container(
-                height: FlResponsiveUI().getProportionalHeight(height: 80),
+                height: 80.h,
                 child: Stack(
                   children: [
                     Align(
@@ -100,13 +100,11 @@ class _BudgetPageState extends State<BudgetPage> {
                               children: [
                                 Text(
                                   '${_budgetItemsList[index].toMap()['budgetName']}',
-                                  style: FlResponsiveUI()
-                                      .getTextStyleRegular(fontSize: 18),
+                                  style: TextStyle(fontSize: 18.sp),
                                 ),
                                 Text(
                                   '${monthYearFormatted(date: DateTime.parse(_budgetItemsList[index].toMap()['budgetDate']))}',
-                                  style: FlResponsiveUI()
-                                      .getTextStyleRegular(fontSize: 16),
+                                  style: TextStyle(fontSize: 16.sp),
                                 ),
                               ],
                             ))),
@@ -125,10 +123,8 @@ class _BudgetPageState extends State<BudgetPage> {
                                 ? Colors.yellowAccent
                                 : Colors.blueGrey),
                         child: Container(
-                          width:
-                              FlResponsiveUI().getProportionalWidth(width: 40),
-                          height: FlResponsiveUI()
-                              .getProportionalHeight(height: 30),
+                          width: 40.w,
+                          height: 30.h,
                           margin: EdgeInsets.only(right: 10, bottom: 10),
                           child: Align(
                             alignment: Alignment.centerRight,

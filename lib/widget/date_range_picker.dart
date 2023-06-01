@@ -1,5 +1,5 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
@@ -77,19 +77,17 @@ class _DateRangePickerWidgetState extends State<DateRangePickerWidget> {
                 Text(
                   dayMonthFormatted(
                       date: DateTime.parse(appState.activeStartDate)),
-                  style: FlResponsiveUI()
-                      .getTextStyleRegular(fontSize: 14, color: Colors.white),
+                  style: TextStyle(fontSize: 14.sp, color: Colors.white),
                 ),
                 Icon(
                   Icons.arrow_forward,
                   color: Colors.yellow[600],
-                  size: FlResponsiveUI().getProportionalWidth(width: 15),
+                  size: 15.w,
                 ),
                 Text(
                   dayMonthFormatted(
                       date: DateTime.parse(appState.activeEndDate)),
-                  style: FlResponsiveUI()
-                      .getTextStyleRegular(fontSize: 14, color: Colors.white),
+                  style: TextStyle(fontSize: 14.sp, color: Colors.white),
                 ),
               ],
             ),

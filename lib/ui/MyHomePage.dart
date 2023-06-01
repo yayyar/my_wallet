@@ -1,4 +1,3 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
@@ -37,9 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _appStateNotifier.getActualCost();
       _doNavHome = false;
     }
-    final screeSize = MediaQuery.of(context).size;
-    FlResponsiveUI().updateScreenDimension(
-        width: screeSize.width, height: screeSize.height);
     return Scaffold(
         body: _widgetNavPages.elementAt(_selectedIndex),
         bottomNavigationBar:

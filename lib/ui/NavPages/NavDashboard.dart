@@ -1,5 +1,5 @@
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_wallet/ui/ChartPages/CircularProgressPage.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
@@ -21,7 +21,7 @@ class _NavDashboardState extends State<NavDashboard> {
         return Column(
           children: [
             Container(
-              height: FlResponsiveUI().getProportionalHeight(height: 190.0),
+              height: 190.h,
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -32,8 +32,7 @@ class _NavDashboardState extends State<NavDashboard> {
                         Container(
                           alignment: Alignment.topCenter,
                           width: double.infinity,
-                          height: FlResponsiveUI()
-                              .getProportionalHeight(height: 150.0),
+                          height: 150.h,
                           decoration: BoxDecoration(
                             color: Colors.blueGrey,
                             borderRadius: BorderRadius.only(
@@ -49,8 +48,8 @@ class _NavDashboardState extends State<NavDashboard> {
                             children: [
                               Text(
                                 'Dashboard',
-                                style: FlResponsiveUI().getTextStyleRegular(
-                                    fontSize: 20, color: Colors.white70),
+                                style: TextStyle(
+                                    fontSize: 18.sp, color: Colors.white70),
                               ),
                               DateRangePickerWidget(),
                             ],
@@ -101,9 +100,7 @@ class _NavDashboardState extends State<NavDashboard> {
                                   child: Container(
                                     child: Text(
                                       'Overload cost ${appState.currencySymbol} ${currencyFormat(data: (appState.actualCost - appState.estimateCost))}',
-                                      style: FlResponsiveUI()
-                                          .getTextStyleRegular(
-                                              color: Colors.red, fontSize: 18),
+                                      style: TextStyle(fontSize: 18.sp),
                                     ),
                                   ),
                                 )
@@ -127,8 +124,8 @@ class _NavDashboardState extends State<NavDashboard> {
       required double cost,
       required String currencySymbol}) {
     return Container(
-      width: FlResponsiveUI().getProportionalWidth(width: 230.0),
-      height: FlResponsiveUI().getProportionalHeight(height: 105.0),
+      width: 230.w,
+      height: 105.h,
       child: Card(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -151,17 +148,13 @@ class _NavDashboardState extends State<NavDashboard> {
                 ),
                 Text(
                   title,
-                  style: FlResponsiveUI().getTextStyleRegular(
-                    fontSize: 18,
-                  ),
+                  style: TextStyle(fontSize: 18.sp),
                 ),
               ],
             ),
             Text(
               '$currencySymbol ${currencyFormat(data: cost)}',
-              style: FlResponsiveUI().getTextStyleRegular(
-                fontSize: 20,
-              ),
+              style: TextStyle(fontSize: 20.sp),
             )
           ],
         ),

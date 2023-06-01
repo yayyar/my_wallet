@@ -1,6 +1,7 @@
 import 'package:charts_flutter_new/flutter.dart' as charts;
-import 'package:fl_responsive_ui/fl_responsive_ui.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_wallet/ui/ChartPages/ExpenseSeries.dart';
 
 class BarChartPage extends StatelessWidget {
@@ -20,7 +21,7 @@ class BarChartPage extends StatelessWidget {
           colorFn: (ExpenseSeries series, _) => series.barColor)
     ];
     return Container(
-      height: FlResponsiveUI().getProportionalHeight(height: 300),
+      height: 300.h,
       padding: EdgeInsets.only(left: 6.0, right: 6.0),
       child: Card(
         child: Padding(
