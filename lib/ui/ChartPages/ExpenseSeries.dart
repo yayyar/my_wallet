@@ -1,5 +1,4 @@
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:flutter/foundation.dart';
+import 'package:charts_flutter_new/flutter.dart' as charts;
 
 class ExpenseSeries {
   final String category;
@@ -7,7 +6,7 @@ class ExpenseSeries {
   final charts.Color barColor;
 
   ExpenseSeries(
-      {@required this.category,
-      @required this.actualCost,
-      @required this.barColor});
+      {required this.category,
+      required this.actualCost,
+      required this.barColor});
 }

@@ -1,11 +1,11 @@
 class CurrencySymbol {
-  String code;
-  String symbol;
+  late String code;
+  late String symbol;
   CurrencySymbol(this.code, this.symbol);
 }
 
 List<CurrencySymbol> currency = _currency
-    .map((e) => CurrencySymbol(e['code'], e['symbol']))
+    .map((e) => CurrencySymbol(e['code']!, e['symbol']!))
     .toList(growable: false);
 
 var _currency = [

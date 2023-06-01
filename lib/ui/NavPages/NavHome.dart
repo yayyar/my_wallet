@@ -17,7 +17,7 @@ class _NavHomeState extends State<NavHome> {
   final TextEditingController _itemNameController = new TextEditingController();
   final TextEditingController _itemExpenseController =
       new TextEditingController();
-  String categoryName;
+  String? categoryName;
   int _categoryId = 0;
   var _db = new DatabaseHelper();
   var _categoryMap = {};
@@ -88,11 +88,8 @@ class _NavHomeState extends State<NavHome> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(
-                              top: FlResponsiveUI()
-                                  .getProportionalHeight(height: 50.0),
-                              left: 10.0,
-                              right: 10.0),
+                          margin:
+                              EdgeInsets.only(top: 50, left: 10.0, right: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -140,8 +137,10 @@ class _NavHomeState extends State<NavHome> {
             ),
             NewExpenseListView(
               items: appState.expenseItemList,
-              startDate: DateTime.parse(appState.activeStartDate).millisecondsSinceEpoch,
-              endDate: DateTime.parse(appState.activeEndDate).millisecondsSinceEpoch,
+              startDate: DateTime.parse(appState.activeStartDate)
+                  .millisecondsSinceEpoch,
+              endDate:
+                  DateTime.parse(appState.activeEndDate).millisecondsSinceEpoch,
             )
           ],
         );
@@ -161,7 +160,10 @@ class _NavHomeState extends State<NavHome> {
     );
   }
 
-  Widget reportCard({String title, double cost, String currencySymbol}) {
+  Widget reportCard(
+      {required String title,
+      required double cost,
+      required String currencySymbol}) {
     return Container(
       width: FlResponsiveUI().getProportionalWidth(width: 230.0),
       height: FlResponsiveUI().getProportionalHeight(height: 105.0),
@@ -241,7 +243,7 @@ class _NavHomeState extends State<NavHome> {
                                   });
                                   if (!_itemDescriptionValidator &&
                                       !_actualCostValidator &&
-                                      categoryName.isNotEmpty &&
+                                      categoryName != null &&
                                       _categoryId != 0) {
                                     int itemDate = DateTime.parse(
                                             fullDateFormatted(
@@ -303,18 +305,19 @@ class _NavHomeState extends State<NavHome> {
                                       height: 0.8,
                                       color: Theme.of(context).primaryColor,
                                     ),
-                                    onChanged: (String newValue) {
-                                      setState(() {
-                                        categoryName = newValue;
-                                        _categoryId = _categoryMap
-                                                .containsValue(categoryName)
-                                            ? _categoryMap.keys.firstWhere(
-                                                (k) =>
-                                                    _categoryMap[k] ==
-                                                    categoryName,
-                                                orElse: null)
-                                            : 0;
-                                      });
+                                    onChanged: (newValue) {
+                                      if (newValue != null)
+                                        setState(() {
+                                          categoryName = newValue;
+                                          _categoryId = _categoryMap
+                                                  .containsValue(categoryName)
+                                              ? _categoryMap.keys.firstWhere(
+                                                  (k) =>
+                                                      _categoryMap[k] ==
+                                                      categoryName,
+                                                  orElse: null)
+                                              : 0;
+                                        });
                                     },
                                     isExpanded: true,
                                     hint: Text('Category'),
@@ -382,8 +385,5 @@ class _NavHomeState extends State<NavHome> {
     _categoryId = 0;
     _itemNameController.clear();
     _itemExpenseController.clear();
-    // setState(() {
-    //   _isFlClick = false;
-    // });
   }
 }

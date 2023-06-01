@@ -1,11 +1,12 @@
 import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:my_wallet/ui/ChartPages/CircularProgressPage.dart';
-import 'package:my_wallet/ui/ChartPages/BarChartPage.dart';
 import 'package:my_wallet/util/AppStateNotifier.dart';
 import 'package:my_wallet/util/DateTools.dart';
 import 'package:my_wallet/widget/date_range_picker.dart';
 import 'package:provider/provider.dart';
+
+import '../ChartPages/BarChartPage.dart';
 
 class NavDashboard extends StatefulWidget {
   @override
@@ -13,7 +14,6 @@ class NavDashboard extends StatefulWidget {
 }
 
 class _NavDashboardState extends State<NavDashboard> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +21,6 @@ class _NavDashboardState extends State<NavDashboard> {
         return Column(
           children: [
             Container(
-              // top layer
-              //color: Colors.black45,
               height: FlResponsiveUI().getProportionalHeight(height: 190.0),
               width: double.infinity,
               child: Column(
@@ -44,11 +42,8 @@ class _NavDashboardState extends State<NavDashboard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(
-                              top: FlResponsiveUI()
-                                  .getProportionalHeight(height: 50.0),
-                              left: 10.0,
-                              right: 10.0),
+                          margin:
+                              EdgeInsets.only(top: 50, left: 10.0, right: 10.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -127,7 +122,10 @@ class _NavDashboardState extends State<NavDashboard> {
     );
   }
 
-  Widget reportCard({String title, double cost, String currencySymbol}) {
+  Widget reportCard(
+      {required String title,
+      required double cost,
+      required String currencySymbol}) {
     return Container(
       width: FlResponsiveUI().getProportionalWidth(width: 230.0),
       height: FlResponsiveUI().getProportionalHeight(height: 105.0),

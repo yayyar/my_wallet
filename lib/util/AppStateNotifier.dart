@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:my_wallet/ui/ChartPages/ExpenseSeries.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../ui/ChartPages/ExpenseSeries.dart';
 import 'Database/DatabaseHelper.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:charts_flutter_new/flutter.dart' as charts;
 
 class AppStateNotifier extends ChangeNotifier {
   final SharedPreferences _prefs;
-  bool _isDarkMode;
+  bool _isDarkMode = false;
 
   var _db = new DatabaseHelper();
   List categoryCountList = [];
@@ -33,7 +33,6 @@ class AppStateNotifier extends ChangeNotifier {
   String _activeEndDate = new DateTime.now().toString();
   String get activeStartDate => _activeStartDate;
   String get activeEndDate => _activeEndDate;
-
 
   AppStateNotifier(this._prefs) {
     _isDarkMode = _prefs.getBool('themeMode') ?? false;
@@ -78,17 +77,18 @@ class AppStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getActualCost({int startDate, int endDate}) async {
+  void getActualCost({int? startDate, int? endDate}) async {
     List actualItems = [];
-    if (startDate == null || endDate == null) {
+    if (endDate == null) {
       await getCurrentActiveBudgetDate();
       int itemDate = DateTime.parse(activeStartDate).millisecondsSinceEpoch;
-      int itemUpdatedDate = DateTime.parse(activeEndDate).millisecondsSinceEpoch;
+      int itemUpdatedDate =
+          DateTime.parse(activeEndDate).millisecondsSinceEpoch;
       actualItems = await _db.getActualCost(
           startDate: itemDate, endDate: itemUpdatedDate);
     } else {
       actualItems =
-          await _db.getActualCost(startDate: startDate, endDate: endDate);
+          await _db.getActualCost(startDate: startDate ?? 0, endDate: endDate);
     }
     actualItems.forEach((element) {
       _actualCost = element['actualCost'] != null ? element['actualCost'] : 0.0;
@@ -97,28 +97,27 @@ class AppStateNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getAllExpenseItems({int startDate, int endDate}) async {
+  void getAllExpenseItems({int? startDate, int? endDate}) async {
     barDataList = [];
     expenseItemList = [];
-    if (startDate == null || endDate == null) {
+    if (endDate == null) {
       await getCurrentActiveBudgetDate();
       int itemDate = DateTime.parse(activeStartDate).millisecondsSinceEpoch;
-      int itemUpdatedDate = DateTime.parse(activeEndDate).millisecondsSinceEpoch;
+      int itemUpdatedDate =
+          DateTime.parse(activeEndDate).millisecondsSinceEpoch;
       expenseItemList = await _db.getAllExpenseItems(
           startDate: itemDate, endDate: itemUpdatedDate);
     } else {
-      expenseItemList =
-          await _db.getAllExpenseItems(startDate: startDate, endDate: endDate);
+      expenseItemList = await _db.getAllExpenseItems(
+          startDate: startDate ?? 0, endDate: endDate);
     }
     expenseItemList.forEach((value) {
       barDataList.add(ExpenseSeries(
         category: value['categoryName'],
         actualCost: value['actualCost'],
-        barColor: charts.ColorUtil.fromDartColor(Colors.blue),
+        barColor: charts.MaterialPalette.blue.shadeDefault,
       ));
     });
-    //print('App barDataList => ${barDataList[0].toString()}');
-    //await _db.getAllExpense();
     notifyListeners();
   }
 
@@ -141,15 +140,19 @@ class AppStateNotifier extends ChangeNotifier {
     var _db = new DatabaseHelper();
     List curDate = await _db.currentBudgetDate();
     DateTime dateTime = new DateTime.now();
-    _activeStartDate = curDate.length != 0 ? curDate[0]['budgetDate'].toString() : dateTime.toString();
-    _activeEndDate = curDate.length != 0 ? curDate[0]['lastUpdatedDate'].toString() : dateTime.toString();
+    _activeStartDate = curDate.length != 0
+        ? curDate[0]['budgetDate'].toString()
+        : dateTime.toString();
+    _activeEndDate = curDate.length != 0
+        ? curDate[0]['lastUpdatedDate'].toString()
+        : dateTime.toString();
     // debugPrint('active date=> $activeStartDate , $activeEndDate');
     notifyListeners();
   }
 
-  updateDateRange({List dateTime}) {
-    _activeStartDate = dateTime[0].toString();
-    _activeEndDate = dateTime[1].toString();
+  updateDateRange({required String startDate, required String endDate}) {
+    _activeStartDate = startDate;
+    _activeEndDate = endDate;
     notifyListeners();
   }
 }

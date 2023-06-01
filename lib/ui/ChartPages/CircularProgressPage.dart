@@ -4,7 +4,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 class CircularProgressPage extends StatefulWidget {
   final double expectCost, actualCost;
-  CircularProgressPage({this.expectCost,this.actualCost});
+  CircularProgressPage({required this.expectCost, required this.actualCost});
   @override
   _CircularProgressPageState createState() => _CircularProgressPageState();
 }
@@ -24,20 +24,23 @@ class _CircularProgressPageState extends State<CircularProgressPage> {
             children: [
               CircularPercentIndicator(
                 animation: true,
-                radius: FlResponsiveUI().getProportionalHeight(height: 110.0),
+                radius: 110,
                 lineWidth: 10.0,
-                percent: ((widget.expectCost - widget.actualCost) / widget.expectCost),
+                percent: ((widget.expectCost - widget.actualCost) /
+                    widget.expectCost),
                 circularStrokeCap: CircularStrokeCap.round,
-                center: new Text("${(((widget.expectCost - widget.actualCost) / widget.expectCost) * 100).toStringAsFixed(2)}%"),
+                center: new Text(
+                    "${(((widget.expectCost - widget.actualCost) / widget.expectCost) * 100).toStringAsFixed(2)}%"),
                 progressColor: Colors.orange,
               ),
               CircularPercentIndicator(
                 animation: true,
-                radius: FlResponsiveUI().getProportionalHeight(height: 110.0),
+                radius: 110,
                 lineWidth: 10.0,
                 percent: (widget.actualCost / widget.expectCost),
                 circularStrokeCap: CircularStrokeCap.round,
-                center: new Text("${((widget.actualCost / widget.expectCost) * 100).toStringAsFixed(2)}%"),
+                center: new Text(
+                    "${((widget.actualCost / widget.expectCost) * 100).toStringAsFixed(2)}%"),
                 progressColor: const Color(0xff2491ea),
               )
             ],

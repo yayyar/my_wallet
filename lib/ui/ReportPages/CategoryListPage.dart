@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class CategoryListPage extends StatefulWidget {
   final int budgetId;
-  CategoryListPage({this.budgetId});
+  CategoryListPage({required this.budgetId});
   @override
   _CategoryListPageState createState() => _CategoryListPageState(budgetId);
 }
@@ -223,7 +223,8 @@ class _CategoryListPageState extends State<CategoryListPage> {
     _categoryEstimateCostController.clear();
   }
 
-  void setCategoryItem({String categoryName, double estimateCost}) async {
+  void setCategoryItem(
+      {required String categoryName, required double estimateCost}) async {
     debugPrint('name $categoryName, cost $estimateCost');
     List _categoryName = await _db.findCategoryName(categoryName);
     debugPrint('Result=> $_categoryName');

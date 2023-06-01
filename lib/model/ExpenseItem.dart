@@ -1,12 +1,13 @@
 class ExpenseItem {
-  int _itemId;
-  String _itemNameDescription;
-  double _actualCost;
-  int _itemDate;
-  int _categoryId;
-  String _monthYear;
+  int? _itemId;
+  late String _itemNameDescription;
+  late double _actualCost;
+  late int _itemDate;
+  late int _categoryId;
+  late String _monthYear;
 
-  ExpenseItem(this._itemNameDescription, this._actualCost, this._itemDate,this._categoryId,this._monthYear);
+  ExpenseItem(this._itemNameDescription, this._actualCost, this._itemDate,
+      this._categoryId, this._monthYear);
 
   ExpenseItem.map(dynamic obj) {
     this._itemId = obj['itemId'];
@@ -17,7 +18,7 @@ class ExpenseItem {
     this._monthYear = obj['monthYear'];
   }
 
-  int get itemId => _itemId;
+  int get itemId => _itemId ?? 0;
   String get itemNameDescription => _itemNameDescription;
   double get actualCost => _actualCost;
   int get itemDate => _itemDate;
@@ -25,10 +26,8 @@ class ExpenseItem {
   String get monthYear => _monthYear;
 
   Map<String, dynamic> toMap() {
-    Map map = new Map<String, dynamic>();
-    if (_itemId != null) {
-      map['itemId'] = _itemId;
-    }
+    Map<String, dynamic> map = {};
+    map['itemId'] = _itemId;
     map['itemNameDescription'] = _itemNameDescription;
     map['actualCost'] = _actualCost;
     map['itemDate'] = _itemDate;

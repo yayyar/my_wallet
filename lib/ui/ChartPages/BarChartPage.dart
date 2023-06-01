@@ -1,11 +1,11 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:fl_responsive_ui/fl_responsive_ui.dart';
 import 'package:flutter/material.dart';
-import 'ExpenseSeries.dart';
+import 'package:my_wallet/ui/ChartPages/ExpenseSeries.dart';
 
 class BarChartPage extends StatelessWidget {
-  final List<ExpenseSeries> seriesList;
-  final bool animate;
+  late List<ExpenseSeries> seriesList;
+  bool? animate;
 
   BarChartPage(this.seriesList, {this.animate});
 

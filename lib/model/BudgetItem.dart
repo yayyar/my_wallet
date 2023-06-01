@@ -1,12 +1,13 @@
 class BudgetItem {
-  int _budgetId;
-  String _budgetName;
-  String _budgetDate;
-  int _budgetStatus;
-  String _monthYear;
-  String _lastUpdatedDate;
+  int? _budgetId;
+  late String _budgetName;
+  late String _budgetDate;
+  late int _budgetStatus;
+  late String _monthYear;
+  late String _lastUpdatedDate;
 
-  BudgetItem(this._budgetName, this._budgetDate, this._budgetStatus,this._monthYear,this._lastUpdatedDate);
+  BudgetItem(this._budgetName, this._budgetDate, this._budgetStatus,
+      this._monthYear, this._lastUpdatedDate);
 
   BudgetItem.map(dynamic obj) {
     this._budgetId = obj['budgetId'];
@@ -17,7 +18,7 @@ class BudgetItem {
     this._lastUpdatedDate = obj['lastUpdatedDate'];
   }
 
-  int get budgetId => _budgetId;
+  int get budgetId => _budgetId ?? 0;
   String get budgetName => _budgetName;
   String get budgetDate => _budgetDate;
   int get budgetStatus => _budgetStatus;
@@ -25,10 +26,8 @@ class BudgetItem {
   String get lastUpdatedDate => _lastUpdatedDate;
 
   Map<String, dynamic> toMap() {
-    Map map = new Map<String, dynamic>();
-    if (_budgetId != null) {
-      map['budgetId'] = _budgetId;
-    }
+    Map<String, dynamic> map = {};
+    map['budgetId'] = _budgetId;
     map['budgetName'] = _budgetName;
     map['budgetDate'] = _budgetDate;
     map['budgetStatus'] = _budgetStatus;

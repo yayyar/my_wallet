@@ -118,12 +118,12 @@ class _BudgetPageState extends State<BudgetPage> {
                                     _budgetItemsList[index]
                                         .toMap()["budgetStatus"]
                                 ? Colors.yellow
-                                : Colors.blueGrey[500],
+                                : Colors.blueGrey,
                             endColor: _activeBudget ==
                                     _budgetItemsList[index]
                                         .toMap()["budgetStatus"]
                                 ? Colors.yellowAccent
-                                : Colors.blueGrey[300]),
+                                : Colors.blueGrey),
                         child: Container(
                           width:
                               FlResponsiveUI().getProportionalWidth(width: 40),
@@ -221,14 +221,14 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   void _showBudgetItemDialog(
-      {@required bool isCreate,
-      String budgetItemName,
-      int budgetItemId,
-      int status}) {
+      {required bool isCreate,
+      String? budgetItemName,
+      int? budgetItemId,
+      int? status}) {
     _resetBudget();
     setState(() {
       !isCreate
-          ? _budgetNameController.text = budgetItemName
+          ? _budgetNameController.text = budgetItemName ?? ''
           : _budgetNameController.clear();
     });
     var _dialog = new Dialog(
@@ -280,7 +280,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                         : _updateBudgetItem(
                                             itemName:
                                                 _budgetNameController.text,
-                                            id: budgetItemId,
+                                            id: budgetItemId ?? 0,
                                             budgetStatus: status,
                                             alert: true);
                                   }
@@ -327,7 +327,7 @@ class _BudgetPageState extends State<BudgetPage> {
     _budgetNameController.clear();
   }
 
-  void _setBudgetItem({String budgetName}) async {
+  void _setBudgetItem({required String budgetName}) async {
     String budgetDate = fullDateFormatted(date: DateTime.now());
     String monthYear = monthYearFormatted(date: DateTime.now());
     BudgetItem _budgetItem =
@@ -399,10 +399,10 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   _updateBudgetItem(
-      {@required String itemName,
-      @required int id,
-      @required int budgetStatus,
-      @required bool alert}) async {
+      {required String itemName,
+      required int id,
+      required budgetStatus,
+      bool alert = false}) async {
     await _db.updateBudgetItem(itemName, id, budgetStatus);
     setState(() {
       _loadBudgetList();
@@ -415,7 +415,7 @@ class _BudgetPageState extends State<BudgetPage> {
 
 class Chevron extends CustomPainter {
   final Color startColor, endColor;
-  Chevron({this.startColor, this.endColor});
+  Chevron({required this.startColor, required this.endColor});
   @override
   void paint(Canvas canvas, Size size) {
     final Gradient gradient = new LinearGradient(

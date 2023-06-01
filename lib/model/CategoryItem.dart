@@ -1,7 +1,7 @@
 class CategoryItem {
-  int _categoryId;
-  String _categoryName;
-  String _categoryDate;
+  int? _categoryId;
+  late String _categoryName;
+  late String _categoryDate;
 
   CategoryItem(this._categoryName, this._categoryDate);
 
@@ -11,15 +11,13 @@ class CategoryItem {
     this._categoryDate = obj['categoryDate'];
   }
 
-  int get categoryId => _categoryId;
+  int get categoryId => _categoryId ?? 0;
   String get categoryName => _categoryName;
   String get categoryDate => _categoryDate;
 
   Map<String, dynamic> toMap() {
-    Map map = new Map<String, dynamic>();
-    if (_categoryId != null) {
-      map['categoryId'] = _categoryId;
-    }
+    Map<String, dynamic> map = {};
+    map['categoryId'] = _categoryId;
     map['categoryName'] = _categoryName;
     map['categoryDate'] = _categoryDate;
     return map;

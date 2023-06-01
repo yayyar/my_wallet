@@ -6,7 +6,12 @@ class NewExpenseListView extends StatefulWidget {
   final List items;
   final int startDate;
   final int endDate;
-  NewExpenseListView({Key key, @required this.items, @required this.startDate, @required this.endDate}) : super(key: key);
+  NewExpenseListView(
+      {Key? key,
+      required this.items,
+      required this.startDate,
+      required this.endDate})
+      : super(key: key);
   @override
   _NewExpenseListViewState createState() => _NewExpenseListViewState();
 }
@@ -22,7 +27,6 @@ class _NewExpenseListViewState extends State<NewExpenseListView> {
           return Card(
             child: InkWell(
               onTap: () {
-                //debugPrint('Click ${widget.items[index]['categoryId']}');
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return ItemDetailPage(
                     title: '${widget.items[index]['categoryName']}',
@@ -104,7 +108,7 @@ class Chevron extends CustomPainter {
     final Gradient gradient = new LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [Colors.blueGrey[500], Colors.blueGrey[300]],
+      colors: [Colors.blue, Colors.blueGrey],
       tileMode: TileMode.clamp,
     );
 
@@ -114,8 +118,6 @@ class Chevron extends CustomPainter {
 
     Path path = Path();
     path.moveTo(0, 0);
-    //path.lineTo(0, size.height);
-    //path.lineTo(size.width / 2, size.height - size.height / 3);
     path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0);
     path.close();

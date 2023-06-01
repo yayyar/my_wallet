@@ -10,7 +10,11 @@ class ItemDetailPage extends StatefulWidget {
   final int categoryId;
   final int startDate;
   final int endDate;
-  ItemDetailPage({this.title, this.categoryId, this.startDate, this.endDate});
+  ItemDetailPage(
+      {required this.title,
+      required this.categoryId,
+      required this.startDate,
+      required this.endDate});
   @override
   _ItemDetailPageState createState() =>
       _ItemDetailPageState(categoryId, startDate, endDate);
@@ -31,7 +35,7 @@ class _ItemDetailPageState extends State<ItemDetailPage> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-          '${widget.title != null ? widget.title : 'CC'}',
+          widget.title,
         )),
         body: Consumer<AppStateNotifier>(builder: (context, appState, child) {
           return Container(
